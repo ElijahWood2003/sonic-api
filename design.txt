@@ -1,0 +1,10 @@
+Notes for Sonic Sample
+
+API: Built out of fastapi
+- Stores YT URL's as db AND 'saved' YT URL's as a list for download
+- POST YT URL: Posts a random YT music URL with information
+    Adds YT URL and info into database
+    Information: Key Sig, Release Date, Views, Artist, Tags
+- POST YT FAVORITES: 'Star' a YT video to add it to list of videos to be downloaded
+- GET YT INFO: Retrieves a specific YT url in database with json of info
+- Convert the list of YT URl's into mp3's and download to user's PC
