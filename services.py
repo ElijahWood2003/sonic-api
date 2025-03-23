@@ -3,6 +3,7 @@ from fastapi import Body, Query
 from typing import Annotated, Union
 import uuid
 from fastapi import StreamingResponse
+import yt_dlp
 
 # empty YT videos db
 # key: URL; value: Video Object
@@ -18,6 +19,8 @@ class ItemNotFoundError(Exception):
     pass
 
     ## PRIVATE FUNCTIONS
+
+
 # getting random YT music URL
 
 
@@ -25,12 +28,14 @@ def get_random_url() -> str:
     # for now return generic url
     return "https://www.youtube.com/watch?v=ikI5xdew6RM"
 
+
 # goal is to take a local file path and output the download stream
 
 
 def iterfile(file_path: str):
     with open(file_path, mode="rb") as file:
         yield from file
+
 
 # download from a filepath using iterfile
 
@@ -46,9 +51,12 @@ class APIService:
     #           places information into Video object
     #           places Video object into videos_db
     #           returns Video object
-    def post_url(self, video: Video) -> Video:
+    def post_url(self) -> Video:
+        video_url: str = get_random_url()
+
+        # yt_dlp will provide video information (title, etc.)
         videos_db[video.url] = video
-    
+
     # toggle_star: takes url as string ->
     # checks it exists within videos_db
     # checks if it already exists within starred_db
@@ -65,7 +73,7 @@ class APIService:
         starred_db[url] = videos_db[url]
 
     # get_video: gets Video object from videos_db if it exists
-    def get_video(self, url: str) -> (Video | None):
+    def get_video(self, url: str) -> Video | None:
         # check if it exists
         if url not in videos_db:
             raise ItemNotFoundError("URL is not in the database")
@@ -73,6 +81,6 @@ class APIService:
         return videos_db[url]
 
     # clear_db: clears all videos in database to refresh user
-    def clear_db() -> None:
+    def clear_db(self) -> None:
         videos_db.clear()
         starred_db.clear()

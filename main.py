@@ -1,5 +1,4 @@
-""" FastAPI Main entrypoint """
-
+"""FastAPI Main entrypoint"""
 
 from fastapi import FastAPI, HTTPException, status, Query, Body
 from pydantic import BaseModel, Field
@@ -17,8 +16,8 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(
     title="Sonic Sampling APIService",
     contact={
-        "name" :"Elijah Wood",
-        "url" :"",
+        "name": "Elijah Wood",
+        "url": "",
     },
     description="An API designed to retrieve random YouTube URL's to sample and download",
     openapi_tags=[],
@@ -35,5 +34,3 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
-
-
